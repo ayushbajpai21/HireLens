@@ -29,11 +29,20 @@ app.include_router(match_router)
 app.include_router(interview_router)
 app.include_router(rag_router)
 
+@app.get("/")
+async def root():
+    return {
+        "status": "online",
+        "service": "HireLens AI Microservice",
+        "docs": "/docs",
+        "health": "/ai/health"
+    }
+
 @app.get("/ai/health")
 async def health_check():
     return {
         "status": "healthy",
-        "service": "AI Career Copilot - FastAPI Microservice",
+        "service": "HireLens AI Microservice",
         "version": "1.0.0"
     }
 

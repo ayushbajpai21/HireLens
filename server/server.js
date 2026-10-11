@@ -36,12 +36,24 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
-// Health Check Route
+// Root & Health Check Routes
+app.get('/', (req, res) => {
+  res.status(200).json({
+    status: 'online',
+    service: 'HireLens Backend API',
+    endpoints: {
+      health: '/api/health',
+      auth: '/api/auth',
+      resumes: '/api/resumes'
+    }
+  });
+});
+
 app.get('/api/health', (req, res) => {
   res.status(200).json({
     status: 'healthy',
     timestamp: new Date().toISOString(),
-    service: 'AI Career Copilot - Node Main Backend'
+    service: 'HireLens Node Main Backend'
   });
 });
 
