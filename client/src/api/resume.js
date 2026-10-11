@@ -1,4 +1,5 @@
-const API_URL = 'http://localhost:5000/api/resumes';
+const BASE_API = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
+const API_URL = `${BASE_API}/resumes`;
 
 /**
  * Upload a resume PDF file
