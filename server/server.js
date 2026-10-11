@@ -57,9 +57,19 @@ app.get('/api/health', (req, res) => {
   });
 });
 
-// Mount Routes
+// Normalize double slashes in URL requests (e.g. //auth/login -> /auth/login)
+app.use((req, res, next) => {
+  if (req.url && req.url.includes('//')) {
+    req.url = req.url.replace(/\/+/g, '/');
+  }
+  next();
+});
+
+// Mount Routes (Supports both with /api and without /api)
 app.use('/api/auth', authRoutes);
+app.use('/auth', authRoutes);
 app.use('/api/resumes', resumeRoutes);
+app.use('/resumes', resumeRoutes);
 
 // Error Handling Middleware
 app.use(notFound);

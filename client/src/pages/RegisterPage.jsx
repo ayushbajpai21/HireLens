@@ -133,6 +133,7 @@ const RegisterPage = () => {
                 placeholder="Minimum 6 characters"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
+                autoComplete="new-password"
                 required
                 style={{ paddingRight: '2.6rem' }}
               />
@@ -167,6 +168,7 @@ const RegisterPage = () => {
                 placeholder="Re-enter password"
                 value={confirmPassword}
                 onChange={(e) => setConfirmPassword(e.target.value)}
+                autoComplete="new-password"
                 required
                 style={{ paddingRight: '2.6rem' }}
               />

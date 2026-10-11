@@ -178,6 +178,7 @@ const LoginPage = () => {
                       placeholder="Enter your password"
                       value={password}
                       onChange={(e) => setPassword(e.target.value)}
+                      autoComplete="current-password"
                       required
                       style={{ paddingRight: '2.6rem' }}
                     />
