@@ -1,0 +1,59 @@
+services:
+  # 1. AI Microservice (FastAPI / Python)
+  - type: web
+    name: hirelens-ai-service
+    env: python
+    rootDir: ai-service
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn main:app --host 0.0.0.0 --port $PORT
+    envVars:
+      - key: GROQ_API_KEY
+        sync: false
+      - key: QDRANT_URL
+        sync: false
+      - key: QDRANT_API_KEY
+        sync: false
+      - key: SIMILARITY_THRESHOLD
+        value: "0.70"
+
+  # 2. Core Server (Node.js / Express)
+  - type: web
+    name: hirelens-server
+    env: node
+    rootDir: server
+    buildCommand: npm install
+    startCommand: node server.js
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: MONGO_URI
+        sync: false
+      - key: JWT_SECRET
+        sync: false
+      - key: JWT_EXPIRES_IN
+        value: 7d
+      - key: GROQ_API_KEY
+        sync: false
+      - key: RESEND_API_KEY
+        sync: false
+      - key: RESEND_FROM
+        value: onboarding@dev2dev.online
+      - key: AI_SERVICE_URL
+        fromService:
+          type: web
+          name: hirelens-ai-service
+          property: host
+
+  # 3. Client Frontend (React / Vite Static Site)
+  - type: web
+    name: hirelens-client
+    env: static
+    rootDir: client
+    buildCommand: npm install && npm run build
+    staticPublishPath: dist
+    envVars:
+      - key: VITE_API_URL
+        fromService:
+          type: web
+          name: hirelens-server
+          property: host
